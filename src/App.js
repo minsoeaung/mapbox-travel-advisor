@@ -7,14 +7,20 @@ import Map from './components/Map/Map'
 
 const App = () => {
     return (
-        <React.Fragment>
+        <div>
             <CssBaseline />
             <Header />
-            <Grid container spacing={3} style={{ width: "100%" }}>
-                <Grid items xs={12} md={4}><List /></Grid>
-                <Grid items xs={12} md={8}><Map /></Grid>
+
+            <Grid container>
+                <Grid items xs={12} md={4}>
+                    <List />
+                </Grid>
+                <Grid items xs={12} md={8}>
+                    <Map />
+                </Grid>
             </Grid>
-        </React.Fragment>
+
+        </div>
     );
 }
 

@@ -10,7 +10,7 @@ import useStyles from './styles'
 */
 
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-mapboxgl.accessToken = 'pk.eyJ1IjoibWluc29lYXVuZyIsImEiOiJja3Vjamo5d3UxMTR4Mm9sbXB1emU3dTlqIn0.IsvkqXCFX7OpiHXPrtc2sA';
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
 const Map = () => {
     const classes = useStyles()
@@ -20,9 +20,9 @@ const Map = () => {
 
     const mapContainer = useRef(null)
     const map = useRef(null)
-    const [lng, setLng] = useState(97.5799)
-    const [lat, setLat] = useState(19.5138)
-    const [zoom, setZoom] = useState(4.68)
+    const [lng, setLng] = useState(96.1561)
+    const [lat, setLat] = useState(16.7870)
+    const [zoom, setZoom] = useState(14.52)
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
@@ -42,14 +42,11 @@ const Map = () => {
             setZoom(map.current.getZoom().toFixed(2));
         });
     });
-    /* 
-        <div className={classes.sidebar}>
-            Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div>
-    */
 
     return (
-        <div ref={mapContainer} className={classes.mapContainer}></div>
+        <div ref={mapContainer} className={classes.mapContainer}>
+            {/* <div className={classes.sidebar}>Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}</div> */}
+        </div>
     );
 }
 
