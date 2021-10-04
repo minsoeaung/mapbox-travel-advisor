@@ -12,5 +12,5 @@ export default makeStyles(() => ({
     },
     pointer: {
         cursor: 'pointer',
-    },
+    }
 }));
