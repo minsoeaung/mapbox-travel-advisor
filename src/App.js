@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CssBaseline, Grid } from "@material-ui/core";
 
-import Header from './components/Header/Header'
-import List from './components/List/List'
-import Map from './components/Map/Map'
+import getPlacesData from "./api/index";
+
+import Header from "./components/Header/Header";
+import List from "./components/List/List";
+import Map from "./components/Map/Map";
 
 const App = () => {
+    const [places, setPlaces] = useState([]);
+    const [coordinates, setCoordinates] = useState({});
+    const [bounds, setBounds] = useState(null);
+
+    useEffect(() => {
+        getPlacesData().then((data) => {
+            setPlaces(data);
+        });
+    }, []); // [] is dependency arr here, if we leave this, 1st param run only at the start of the application
+
     return (
         <div>
             <CssBaseline />
@@ -16,12 +28,15 @@ const App = () => {
                     <List />
                 </Grid>
                 <Grid items xs={12} md={8}>
-                    <Map />
+                    <Map
+                        setCoordinates={setCoordinates}
+                        setBounds={setBounds}
+                        coordinates={coordinates}
+                    />
                 </Grid>
             </Grid>
-
         </div>
     );
-}
+};
 
-export default App
+export default App;

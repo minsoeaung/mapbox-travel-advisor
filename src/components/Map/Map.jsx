@@ -1,53 +1,67 @@
-import React, { useRef, useEffect, useState } from "react"
-// import GoogleMapReact from 'google-map-react'
+import React, { useRef, useEffect, useState, useCallback } from "react";
 // import { Paper, Typography, useMediaQuery } from '@material-ui/core'
-// import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined'
 
-import useStyles from './styles'
+import MapGL from "react-map-gl";
+import Geocoder from "react-map-gl-geocoder";
 
-/* 
-    GoogleMapReact does not work without billing, so mapbox-gl is the one to use
-*/
+import useStyles from "./styles";
+import "mapbox-gl/dist/mapbox-gl.css";
+import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
+const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
-const Map = () => {
-    const classes = useStyles()
-    // const isMobile = useMediaQuery('(min-width: 600px)')
+const Map = ({ setCoordinates, setBounds, coordinates }) => {
+    const classes = useStyles();
 
-    // const coordinates = { lat: 0, lng: 0 }
-
-    const mapContainer = useRef(null)
-    const map = useRef(null)
-    const [lng, setLng] = useState(96.1561)
-    const [lat, setLat] = useState(16.7870)
-    const [zoom, setZoom] = useState(14.52)
-
-    useEffect(() => {
-        if (map.current) return; // initialize map only once
-        map.current = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [lng, lat],
-            zoom: zoom
-        });
+    // initial position is Yangon
+    const [viewport, setViewport] = useState({
+        latitude: 16.806513845650294,
+        longitude: 96.15593339811613,
+        zoom: 12.303149558712713,
     });
+    const mapRef = useRef();
+    const handleViewportChange = useCallback((newViewport) => {
 
-    useEffect(() => {
-        if (!map.current) return; // wait for map to initialize
-        map.current.on('move', () => {
-            setLng(map.current.getCenter().lng.toFixed(4));
-            setLat(map.current.getCenter().lat.toFixed(4));
-            setZoom(map.current.getZoom().toFixed(2));
+        // setCoordinates here
+
+        console.log("new viewport", newViewport);
+
+        setViewport(newViewport);
+    }, []);
+
+    const handleGeocoderViewportChange = useCallback((newViewport) => {
+        const geocoderDefaultOverrides = { transitionDuration: 1000 };
+
+        // setCoordinates here
+
+        return handleViewportChange({
+            ...newViewport,
+            ...geocoderDefaultOverrides,
         });
-    });
+    }, []);
 
     return (
-        <div ref={mapContainer} className={classes.mapContainer}>
-            {/* <div className={classes.sidebar}>Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}</div> */}
+        <div className={classes.mapContainer}>
+            {/* this is map */}
+            <MapGL
+                ref={mapRef}
+                {...viewport}
+                width="100%"
+                height="100%"
+                onViewportChange={handleViewportChange}
+                mapboxApiAccessToken={MAPBOX_TOKEN}
+                onResize={() => console.log("resized!!!!")}
+            >
+                {/* this is search box */}
+                <Geocoder
+                    mapRef={mapRef}
+                    onViewportChange={handleGeocoderViewportChange}
+                    mapboxApiAccessToken={MAPBOX_TOKEN}
+                    position="top-left"
+                />
+            </MapGL>
         </div>
     );
-}
+};
 
-export default Map
+export default Map;
