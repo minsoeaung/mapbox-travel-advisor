@@ -16,7 +16,7 @@ const App = () => {
         getPlacesData().then((data) => {
             setPlaces(data);
         });
-    }, []); // [] is dependency arr here, if we leave this, 1st param run only at the start of the application
+    }, []);
 
     return (
         <div>
