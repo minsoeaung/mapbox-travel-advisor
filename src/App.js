@@ -10,13 +10,14 @@ import Map from "./components/Map/Map";
 const App = () => {
     const [places, setPlaces] = useState([]);
     const [coordinates, setCoordinates] = useState({});
-    const [bounds, setBounds] = useState(null);
+    const [bounds, setBounds] = useState({});
 
     useEffect(() => {
-        getPlacesData().then((data) => {
+        getPlacesData(bounds.ne, bounds.sw).then((data) => {
+            console.log("fetched some data")
             setPlaces(data);
         });
-    }, []);
+    }, [bounds]); // re-fetch places data every time bounds change
 
     return (
         <div>
@@ -25,7 +26,7 @@ const App = () => {
 
             <Grid container>
                 <Grid items xs={12} md={4}>
-                    <List />
+                    <List places={places} />
                 </Grid>
                 <Grid items xs={12} md={8}>
                     <Map

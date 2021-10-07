@@ -20,6 +20,15 @@ const Map = ({ setCoordinates, setBounds, coordinates }) => {
     });
 
     const mapRef = useRef();
+
+    useEffect(() => {
+        const bounds = mapRef.current.getMap().getBounds();
+        setBounds({
+            ne: bounds._ne,
+            sw: bounds._sw,
+        });
+    }, []);
+
     const handleViewportChange = useCallback((newViewport) => {
         setViewport(newViewport);
     }, []);
@@ -32,6 +41,19 @@ const Map = ({ setCoordinates, setBounds, coordinates }) => {
         });
     }, []);
 
+    /* 
+        1. every wheel moment counted ( want it to count only when wheel action end )
+        2. for some reason, transition made by mouse skip sometime
+        // change this later, for now, implement api and show result on list, depending on bounds
+    */
+    const handleTransitionEnd = useCallback(() => {
+        const bounds = mapRef.current.getMap().getBounds();
+        setBounds({
+            ne: bounds._ne,
+            sw: bounds._sw,
+        });
+    }, [setBounds]);
+
     return (
         <div className={classes.mapContainer}>
             <MapGL
@@ -40,6 +62,7 @@ const Map = ({ setCoordinates, setBounds, coordinates }) => {
                 width="100%"
                 height="100%"
                 onViewportChange={handleViewportChange}
+                onTransitionEnd={handleTransitionEnd}
                 mapboxApiAccessToken={MAPBOX_TOKEN}
             >
                 <Geocoder

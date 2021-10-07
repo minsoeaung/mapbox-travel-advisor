@@ -1,25 +1,28 @@
-import React, { useState } from "react"
-import { CircularProgress, Grid, Typography, InputLabel, MenuItem, FormControl, Select } from "@material-ui/core";
+import React, { useState } from "react";
+import {
+    CircularProgress,
+    Grid,
+    Typography,
+    InputLabel,
+    MenuItem,
+    FormControl,
+    Select,
+} from "@material-ui/core";
 
-import PlaceDetails from '../PlaceDetails/PlaceDetails'
+import PlaceDetails from "../PlaceDetails/PlaceDetails";
 
-import useStyles from './styles'
+import useStyles from "./styles";
 
-const List = () => {
-    const classes = useStyles()
-    const [type, setType] = useState("restaurants")
-    const [rating, setRating] = useState("")
-
-    const places = [
-        { name: "cool place" },
-        { name: "best beer" },
-        { name: "best steak" },
-        { name: "cool place" },
-    ]
+const List = ({ places }) => {
+    const classes = useStyles();
+    const [type, setType] = useState("restaurants");
+    const [rating, setRating] = useState("");
 
     return (
         <div className={classes.container}>
-            <Typography variant="h4">Restaurants, Hotels & Attractions around you</Typography>
+            <Typography variant="h4">
+                Restaurants, Hotels & Attractions around you
+            </Typography>
 
             <FormControl className={classes.formControl}>
                 <InputLabel>Type</InputLabel>
@@ -32,7 +35,10 @@ const List = () => {
 
             <FormControl className={classes.formControl}>
                 <InputLabel>Rating</InputLabel>
-                <Select value={rating} onChange={(e) => setRating(e.target.value)}>
+                <Select
+                    value={rating}
+                    onChange={(e) => setRating(e.target.value)}
+                >
                     <MenuItem value={0}>All</MenuItem>
                     <MenuItem value={3}>Above 3.0</MenuItem>
                     <MenuItem value={4}>Above 4.0</MenuItem>
@@ -49,6 +55,6 @@ const List = () => {
             </Grid>
         </div>
     );
-}
+};
 
-export default List
+export default List;
