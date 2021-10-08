@@ -11,11 +11,12 @@ const App = () => {
     const [places, setPlaces] = useState([]);
     const [coordinates, setCoordinates] = useState({});
     const [bounds, setBounds] = useState({});
-
     useEffect(() => {
         getPlacesData(bounds.ne, bounds.sw).then((data) => {
-            console.log("fetched some data")
-            setPlaces(data);
+            if (data !== undefined) {
+                console.log("fetched some data", data)
+                setPlaces(data);
+            }
         });
     }, [bounds]); // re-fetch places data every time bounds change
 
@@ -33,6 +34,7 @@ const App = () => {
                         setCoordinates={setCoordinates}
                         setBounds={setBounds}
                         coordinates={coordinates}
+                        places={places}
                     />
                 </Grid>
             </Grid>

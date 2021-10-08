@@ -1,16 +1,25 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
-// import { Paper, Typography, useMediaQuery } from '@material-ui/core'
+import React, {
+    useRef,
+    useEffect,
+    useState,
+    useCallback,
+    useMemo,
+} from "react";
+import { Paper, Typography } from "@material-ui/core";
+import Rating from "@material-ui/lab/Rating";
 
-import MapGL, { GeolocateControl } from "react-map-gl";
+import MapGL, { GeolocateControl, Marker } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 
 import useStyles from "./styles";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
+import LocationOnOutlined from "@material-ui/icons/LocationOnOutlined";
+
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
-const Map = ({ setCoordinates, setBounds, coordinates }) => {
+const Map = ({ setCoordinates, setBounds, coordinates, places }) => {
     const classes = useStyles();
 
     const [viewport, setViewport] = useState({
@@ -54,6 +63,68 @@ const Map = ({ setCoordinates, setBounds, coordinates }) => {
         });
     }, [setBounds]);
 
+    /* 
+        adding markers about places to the map
+
+
+        Performance notes: 
+        if a large number of markers are needed, it's generally favorable to cache the <Marker> nodes, 
+        so that we don't rerender them when the viewport changes. 
+        https://visgl.github.io/react-map-gl/docs/api-reference/marker
+    */
+    const markers = useMemo(
+        () =>
+            places?.map((place, i) => {
+                if (!isNaN(place.longitude)) {
+                    return (
+                        <Marker
+                            longitude={Number(place.longitude)}
+                            latitude={Number(place.latitude)}
+                            key={i}
+                            className={classes.markerContainer}
+                            offsetLeft={-20}
+                            offsetTop={-10}
+                        >
+                            <Paper elevation={3} className={classes.paper}>
+                                <Typography
+                                    className={classes.typography}
+                                    variant="subtitle2"
+                                    gutterBottom
+                                >
+                                    {" "}
+                                    {place.name}
+                                </Typography>
+                                <img
+                                    className={classes.pointer}
+                                    alt={place.name}
+                                    src={
+                                        place.photo
+                                            ? place.photo.images.large.url
+                                            : "https://jooinn.com/images/blur-restaurant-1.png"
+                                    }
+                                />
+                                <Rating
+                                    name="read-only"
+                                    size="small"
+                                    value={Number(place.rating)}
+                                    readOnly
+                                />
+                            </Paper>
+                        </Marker>
+                    );
+                } else {
+                    return null;
+                }
+            }),
+        [
+            places,
+            classes.markerContainer,
+            classes.paper,
+            classes.pointer,
+            classes.typography,
+        ]
+    );
+
     return (
         <div className={classes.mapContainer}>
             <MapGL
@@ -77,6 +148,7 @@ const Map = ({ setCoordinates, setBounds, coordinates }) => {
                     trackUserLocation={true}
                     auto
                 />
+                {markers}
             </MapGL>
         </div>
     );
