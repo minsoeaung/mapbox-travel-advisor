@@ -9,15 +9,19 @@ import Map from "./components/Map/Map";
 
 const App = () => {
     const [places, setPlaces] = useState([]);
-    const [coordinates, setCoordinates] = useState({});
     const [bounds, setBounds] = useState({});
+    const [clickedMarker, setClickedMarker] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
+        setIsLoading(true);
         getPlacesData(bounds.ne, bounds.sw).then((data) => {
             if (data !== undefined) {
-                console.log("fetched some data", data)
                 setPlaces(data);
+                setIsLoading(false);
             }
         });
+
     }, [bounds]); // re-fetch places data every time bounds change
 
     return (
@@ -27,14 +31,13 @@ const App = () => {
 
             <Grid container>
                 <Grid items xs={12} md={4}>
-                    <List places={places} />
+                    <List places={places} clickedMarker={clickedMarker} isLoading={isLoading} />
                 </Grid>
                 <Grid items xs={12} md={8}>
                     <Map
-                        setCoordinates={setCoordinates}
                         setBounds={setBounds}
-                        coordinates={coordinates}
                         places={places}
+                        setClickedMarker={setClickedMarker}
                     />
                 </Grid>
             </Grid>

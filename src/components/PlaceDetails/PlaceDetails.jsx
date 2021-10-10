@@ -9,15 +9,21 @@ import {
     CardActions,
     Button,
 } from "@material-ui/core";
-
 import LocationOnIcon from "@material-ui/icons/LocationOnOutlined";
 import PhoneIcon from "@material-ui/icons/Phone";
 import Rating from "@material-ui/lab/Rating";
 
 import useStyles from "./styles";
 
-const PlaceDetails = ({ place }) => {
+const PlaceDetails = ({ place, selected, refProp }) => {
     const classes = useStyles();
+
+    if (selected) {
+        refProp?.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+    }
 
     return (
         <Card elevation={6}>

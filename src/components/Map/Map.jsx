@@ -19,7 +19,7 @@ import LocationOnOutlined from "@material-ui/icons/LocationOnOutlined";
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
-const Map = ({ setCoordinates, setBounds, coordinates, places }) => {
+const Map = ({ places, setBounds, setClickedMarker }) => {
     const classes = useStyles();
 
     const [viewport, setViewport] = useState({
@@ -72,6 +72,7 @@ const Map = ({ setCoordinates, setBounds, coordinates, places }) => {
         so that we don't rerender them when the viewport changes. 
         https://visgl.github.io/react-map-gl/docs/api-reference/marker
     */
+
     const markers = useMemo(
         () =>
             places?.map((place, i) => {
@@ -84,6 +85,9 @@ const Map = ({ setCoordinates, setBounds, coordinates, places }) => {
                             className={classes.markerContainer}
                             offsetLeft={-20}
                             offsetTop={-10}
+                            onClick={() => {
+                                setClickedMarker(i);
+                            }}
                         >
                             <Paper elevation={3} className={classes.paper}>
                                 <Typography
@@ -118,6 +122,7 @@ const Map = ({ setCoordinates, setBounds, coordinates, places }) => {
             }),
         [
             places,
+            setClickedMarker,
             classes.markerContainer,
             classes.paper,
             classes.pointer,
