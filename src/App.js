@@ -12,17 +12,19 @@ const App = () => {
     const [bounds, setBounds] = useState({});
     const [clickedMarker, setClickedMarker] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [type, setType] = useState("restaurants");
+    const [rating, setRating] = useState("");
 
     useEffect(() => {
         setIsLoading(true);
-        getPlacesData(bounds.ne, bounds.sw).then((data) => {
+        getPlacesData(type, bounds.ne, bounds.sw).then((data) => {
             if (data !== undefined) {
                 setPlaces(data);
                 setIsLoading(false);
             }
         });
 
-    }, [bounds]); // re-fetch places data every time bounds change
+    }, [type, bounds]); // re-fetch places data every time bounds change
 
     return (
         <div>
@@ -31,7 +33,15 @@ const App = () => {
 
             <Grid container>
                 <Grid items xs={12} md={4}>
-                    <List places={places} clickedMarker={clickedMarker} isLoading={isLoading} />
+                    <List
+                        places={places}
+                        clickedMarker={clickedMarker}
+                        isLoading={isLoading}
+                        type={type}
+                        setType={setType}
+                        rating={rating}
+                        setRating={setRating}
+                    />
                 </Grid>
                 <Grid items xs={12} md={8}>
                     <Map
