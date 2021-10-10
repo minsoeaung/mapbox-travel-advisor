@@ -19,7 +19,7 @@ import LocationOnOutlined from "@material-ui/icons/LocationOnOutlined";
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
-const Map = ({ places, setBounds, setClickedMarker }) => {
+const Map = ({ places, setBounds, setClickedMarker, containerRef }) => {
     const classes = useStyles();
 
     const [viewport, setViewport] = useState({
@@ -140,12 +140,13 @@ const Map = ({ places, setBounds, setClickedMarker }) => {
                 onViewportChange={handleViewportChange}
                 onTransitionEnd={handleTransitionEnd}
                 mapboxApiAccessToken={MAPBOX_TOKEN}
+                mapStyle="mapbox://styles/mapbox/streets-v11"
             >
                 <Geocoder
                     mapRef={mapRef}
+                    containerRef={containerRef}
                     onViewportChange={handleGeocoderViewportChange}
                     mapboxApiAccessToken={MAPBOX_TOKEN}
-                    position="top-left"
                 />
                 <GeolocateControl
                     style={{ top: 10, right: 10 }}

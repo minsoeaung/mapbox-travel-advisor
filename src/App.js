@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createRef } from "react";
 import { CssBaseline, Grid } from "@material-ui/core";
 
 import getPlacesData from "./api/index";
@@ -15,6 +15,7 @@ const App = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [type, setType] = useState("restaurants");
     const [rating, setRating] = useState("");
+    const geocoderContainerRef = createRef();
 
     useEffect(() => {
         setIsLoading(true);
@@ -35,7 +36,7 @@ const App = () => {
     return (
         <div>
             <CssBaseline />
-            <Header />
+            <Header containerRef={geocoderContainerRef} />
 
             <Grid container>
                 <Grid items xs={12} md={4}>
@@ -54,6 +55,7 @@ const App = () => {
                         setBounds={setBounds}
                         places={filteredPlaces.length ? filteredPlaces : places}
                         setClickedMarker={setClickedMarker}
+                        containerRef={geocoderContainerRef}
                     />
                 </Grid>
             </Grid>
