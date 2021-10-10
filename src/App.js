@@ -9,6 +9,7 @@ import Map from "./components/Map/Map";
 
 const App = () => {
     const [places, setPlaces] = useState([]);
+    const [filteredPlaces, setFilteredPlaces] = useState([]);
     const [bounds, setBounds] = useState({});
     const [clickedMarker, setClickedMarker] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -20,11 +21,16 @@ const App = () => {
         getPlacesData(type, bounds.ne, bounds.sw).then((data) => {
             if (data !== undefined) {
                 setPlaces(data);
+                setFilteredPlaces([]);
                 setIsLoading(false);
             }
         });
 
-    }, [type, bounds]); // re-fetch places data every time bounds change
+    }, [type, bounds]);
+
+    useEffect(() => {
+        setFilteredPlaces(places.filter(place => place.rating > rating))
+    }, [rating])
 
     return (
         <div>
@@ -34,7 +40,7 @@ const App = () => {
             <Grid container>
                 <Grid items xs={12} md={4}>
                     <List
-                        places={places}
+                        places={filteredPlaces.length ? filteredPlaces : places}
                         clickedMarker={clickedMarker}
                         isLoading={isLoading}
                         type={type}
@@ -46,7 +52,7 @@ const App = () => {
                 <Grid items xs={12} md={8}>
                     <Map
                         setBounds={setBounds}
-                        places={places}
+                        places={filteredPlaces.length ? filteredPlaces : places}
                         setClickedMarker={setClickedMarker}
                     />
                 </Grid>
