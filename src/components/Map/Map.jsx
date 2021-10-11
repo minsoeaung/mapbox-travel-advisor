@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { Paper, Typography } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
+import { useMediaQuery } from "@material-ui/core";
 
 import MapGL, { GeolocateControl, Marker } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
@@ -21,6 +22,7 @@ const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
 const Map = ({ places, setBounds, setClickedMarker, containerRef }) => {
     const classes = useStyles();
+    const desktopScreen = useMediaQuery("(min-width:600px)");
 
     const [viewport, setViewport] = useState({
         latitude: 16.806513845650294,
@@ -89,31 +91,38 @@ const Map = ({ places, setBounds, setClickedMarker, containerRef }) => {
                                 setClickedMarker(i);
                             }}
                         >
-                            <Paper elevation={3} className={classes.paper}>
-                                <Typography
-                                    className={classes.typography}
-                                    variant="subtitle2"
-                                    gutterBottom
-                                >
-                                    {" "}
-                                    {place.name}
-                                </Typography>
-                                <img
-                                    className={classes.pointer}
-                                    alt={place.name}
-                                    src={
-                                        place.photo
-                                            ? place.photo.images.large.url
-                                            : "https://jooinn.com/images/blur-restaurant-1.png"
-                                    }
+                            {!desktopScreen ? (
+                                <LocationOnOutlined
+                                    color="primary"
+                                    fontSize="large"
                                 />
-                                <Rating
-                                    name="read-only"
-                                    size="small"
-                                    value={Number(place.rating)}
-                                    readOnly
-                                />
-                            </Paper>
+                            ) : (
+                                <Paper elevation={3} className={classes.paper}>
+                                    <Typography
+                                        className={classes.typography}
+                                        variant="subtitle2"
+                                        gutterBottom
+                                    >
+                                        {" "}
+                                        {place.name}
+                                    </Typography>
+                                    <img
+                                        className={classes.pointer}
+                                        alt={place.name}
+                                        src={
+                                            place.photo
+                                                ? place.photo.images.large.url
+                                                : "https://jooinn.com/images/blur-restaurant-1.png"
+                                        }
+                                    />
+                                    <Rating
+                                        name="read-only"
+                                        size="small"
+                                        value={Number(place.rating)}
+                                        readOnly
+                                    />
+                                </Paper>
+                            )}
                         </Marker>
                     );
                 } else {
@@ -127,6 +136,7 @@ const Map = ({ places, setBounds, setClickedMarker, containerRef }) => {
             classes.paper,
             classes.pointer,
             classes.typography,
+            desktopScreen,
         ]
     );
 
