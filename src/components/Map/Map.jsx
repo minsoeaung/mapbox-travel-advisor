@@ -147,6 +147,7 @@ const Map = ({ places, setBounds, setClickedMarker, containerRef }) => {
                     containerRef={containerRef}
                     onViewportChange={handleGeocoderViewportChange}
                     mapboxApiAccessToken={MAPBOX_TOKEN}
+                    inputValue=""
                 />
                 <GeolocateControl
                     style={{ top: 10, right: 10 }}
