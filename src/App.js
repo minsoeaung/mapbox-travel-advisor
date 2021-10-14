@@ -6,6 +6,7 @@ import getPlacesData from "./api/index";
 import Header from "./components/Header/Header";
 import List from "./components/List/List";
 import Map from "./components/Map/Map";
+import axios from 'axios'
 
 const App = () => {
     const [places, setPlaces] = useState([]);
@@ -19,14 +20,20 @@ const App = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        getPlacesData(type, bounds.ne, bounds.sw).then((data) => {
+
+        let CancelToken = axios.CancelToken;
+        let source = CancelToken.source();
+
+        getPlacesData(type, bounds.ne, bounds.sw, source).then((data) => {
             if (data !== undefined) {
                 setPlaces(data);
+                console.log("new places data set")
                 setFilteredPlaces([]);
                 setIsLoading(false);
             }
-        });
+        })
 
+        return () => source.cancel('Cancelled due to new request coming in')
     }, [type, bounds]);
 
     useEffect(() => {
