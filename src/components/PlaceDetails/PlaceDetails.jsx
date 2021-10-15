@@ -8,10 +8,10 @@ import {
     Chip,
     CardActions,
     Button,
-} from "@material-ui/core";
-import LocationOnIcon from "@material-ui/icons/LocationOnOutlined";
-import PhoneIcon from "@material-ui/icons/Phone";
-import Rating from "@material-ui/lab/Rating";
+} from "@mui/material";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import PhoneIcon from "@mui/icons-material/Phone";
+import Rating from "@mui/material/Rating";
 
 import useStyles from "./styles";
 
@@ -41,7 +41,11 @@ const PlaceDetails = ({ place, selected, refProp }) => {
                     {place.name}
                 </Typography>
                 <Box display="flex" justifyContent="space-between">
-                    <Rating value={Number(place.rating)} readOnly />
+                    <Rating
+                        name="read-only"
+                        value={Number(place.rating)}
+                        readOnly
+                    />
                     <Typography gutterBottom variant="subtitle1">
                         out of {place.num_reviews} reviews
                     </Typography>
@@ -84,7 +88,7 @@ const PlaceDetails = ({ place, selected, refProp }) => {
                         color="textSecondary"
                         className={classes.subtitle}
                     >
-                        <LocationOnIcon /> {place.address}
+                        <LocationOnOutlinedIcon /> {place.address}
                     </Typography>
                 )}
                 {place?.phone && (

@@ -5,9 +5,8 @@ import React, {
     useCallback,
     useMemo,
 } from "react";
-import { Paper, Typography } from "@material-ui/core";
-import Rating from "@material-ui/lab/Rating";
-import { useMediaQuery } from "@material-ui/core";
+import { Paper, Typography, useMediaQuery } from "@mui/material";
+import Rating from "@mui/material/Rating";
 
 import MapGL, { GeolocateControl, Marker } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
@@ -16,7 +15,7 @@ import useStyles from "./styles";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
-import LocationOnOutlined from "@material-ui/icons/LocationOnOutlined";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
@@ -92,7 +91,7 @@ const Map = ({ places, setBounds, setClickedMarker, containerRef }) => {
                             }}
                         >
                             {!desktopScreen ? (
-                                <LocationOnOutlined
+                                <LocationOnOutlinedIcon
                                     color="primary"
                                     fontSize="large"
                                 />

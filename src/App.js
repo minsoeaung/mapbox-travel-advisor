@@ -1,5 +1,6 @@
 import React, { useEffect, useState, createRef } from "react";
-import { CssBaseline, Grid } from "@material-ui/core";
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
 
 import getPlacesData from "./api/index";
 

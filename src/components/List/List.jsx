@@ -3,17 +3,25 @@ import {
     CircularProgress,
     Grid,
     Typography,
-    InputLabel,
     MenuItem,
     FormControl,
+    InputLabel,
     Select,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import PlaceDetails from "../PlaceDetails/PlaceDetails";
 
 import useStyles from "./styles";
 
-const List = ({ places, clickedMarker, isLoading, type, setType, rating, setRating }) => {
+const List = ({
+    places,
+    clickedMarker,
+    isLoading,
+    type,
+    setType,
+    rating,
+    setRating,
+}) => {
     const classes = useStyles();
     const [elementRefs, setElementRefs] = useState([]);
 
@@ -37,51 +45,79 @@ const List = ({ places, clickedMarker, isLoading, type, setType, rating, setRati
                 </div>
             ) : (
                 <>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel>Type</InputLabel>
-                        <Select
-                            value={type}
-                            onChange={(e) => setType(e.target.value)}
+                    {/* form selector div */}
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "start",
+                        }}
+                    >
+                        <FormControl
+                            className={classes.formControl}
+                            sx={{ m: 1, minWidth: 150 }}
                         >
-                            <MenuItem value={"restaurants"}>
-                                Restaurants
-                            </MenuItem>
-                            <MenuItem value={"hotels"}>Hotels</MenuItem>
-                            <MenuItem value={"attractions"}>
-                                Attractions
-                            </MenuItem>
-                        </Select>
-                    </FormControl>
-
-                    <FormControl className={classes.formControl}>
-                        <InputLabel>Rating</InputLabel>
-                        <Select
-                            value={rating}
-                            onChange={(e) => setRating(e.target.value)}
-                        >
-                            <MenuItem value={0}>All</MenuItem>
-                            <MenuItem value={3}>Above 3.0</MenuItem>
-                            <MenuItem value={4}>Above 4.0</MenuItem>
-                            <MenuItem value={4.5}>Above 4.5</MenuItem>
-                        </Select>
-                    </FormControl>
-
-                    <Grid container spacing={3} className={classes.list}>
-                        {places?.map((place, index) => (
-                            <Grid
-                                ref={elementRefs[index]}
-                                item
-                                key={index}
-                                xs={12}
+                            <InputLabel id="type-label">Type</InputLabel>
+                            <Select
+                                labelId="type-label"
+                                label="Type"
+                                id="typeID"
+                                value={type}
+                                onChange={(e) => setType(e.target.value)}
                             >
-                                <PlaceDetails
-                                    place={place}
-                                    selected={clickedMarker === index}
-                                    refProp={elementRefs[index]}
-                                />
-                            </Grid>
-                        ))}
-                    </Grid>
+                                <MenuItem value={"restaurants"}>
+                                    Restaurants
+                                </MenuItem>
+                                <MenuItem value={"hotels"}>Hotels</MenuItem>
+                                <MenuItem value={"attractions"}>
+                                    Attractions
+                                </MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        <FormControl
+                            className={classes.formControl}
+                            sx={{ m: 1, minWidth: 150 }}
+                        >
+                            <InputLabel id="rating-label">Rating</InputLabel>
+                            <Select
+                                labelId="rating-label"
+                                label="Rating"
+                                id="ratingID"
+                                value={rating}
+                                onChange={(e) => setRating(e.target.value)}
+                            >
+                                <MenuItem value={0}>All</MenuItem>
+                                <MenuItem value={3}>Above 3.0</MenuItem>
+                                <MenuItem value={4}>Above 4.0</MenuItem>
+                                <MenuItem value={4.5}>Above 4.5</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
+
+                    {/* card div */}
+
+                    {/* 
+                        need to wrap with div and give some padding to prevent grid overflow
+                        link : https://mui.com/components/grid/#limitations
+                    */}
+                    <div style={{ paddingTop: 25 }}>
+                        <Grid container spacing={3} className={classes.list}>
+                            {places?.map((place, index) => (
+                                <Grid
+                                    ref={elementRefs[index]}
+                                    item
+                                    key={index}
+                                    xs={12}
+                                >
+                                    <PlaceDetails
+                                        place={place}
+                                        selected={clickedMarker === index}
+                                        refProp={elementRefs[index]}
+                                    />
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </div>
                 </>
             )}
         </div>
