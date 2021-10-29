@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, {useState, useEffect, createRef} from "react";
 import {
     CircularProgress,
     Grid,
@@ -14,14 +14,14 @@ import PlaceDetails from "../PlaceDetails/PlaceDetails";
 import useStyles from "./styles";
 
 const List = ({
-    places,
-    clickedMarker,
-    isLoading,
-    type,
-    setType,
-    rating,
-    setRating,
-}) => {
+                  places,
+                  clickedMarker,
+                  isLoading,
+                  type,
+                  setType,
+                  rating,
+                  setRating,
+              }) => {
     const classes = useStyles();
     const [elementRefs, setElementRefs] = useState([]);
 
@@ -41,7 +41,7 @@ const List = ({
 
             {isLoading ? (
                 <div className={classes.loading}>
-                    <CircularProgress size="5rem" />
+                    <CircularProgress size="5rem"/>
                 </div>
             ) : (
                 <>
@@ -54,7 +54,7 @@ const List = ({
                     >
                         <FormControl
                             className={classes.formControl}
-                            sx={{ m: 1, minWidth: 150 }}
+                            sx={{m: 1, minWidth: 150}}
                         >
                             <InputLabel id="type-label">Type</InputLabel>
                             <Select
@@ -76,7 +76,7 @@ const List = ({
 
                         <FormControl
                             className={classes.formControl}
-                            sx={{ m: 1, minWidth: 150 }}
+                            sx={{m: 1, minWidth: 150}}
                         >
                             <InputLabel id="rating-label">Rating</InputLabel>
                             <Select
@@ -100,7 +100,7 @@ const List = ({
                         need to wrap with div and give some padding to prevent grid overflow
                         link : https://mui.com/components/grid/#limitations
                     */}
-                    <div style={{ paddingTop: 25 }}>
+                    <div style={{paddingTop: 25}}>
                         <Grid container spacing={3} className={classes.list}>
                             {places?.map((place, index) => (
                                 <Grid

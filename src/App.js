@@ -36,11 +36,16 @@ const App = () => {
         getPlacesData(type, bounds.ne, bounds.sw, source).then((data) => {
             if (data !== undefined) {
                 setPlaces(data);
-                // console.log("new places data set")
-                // setFilteredPlaces([]);
-                // set previous rating filtering if user change type
-                setFilteredPlaces(places.filter(place => place.rating > rating))
-                // or try to reset the rating filter to all if user changes type
+                // console.log(`fetched ${type}`)
+                setFilteredPlaces([]);
+                /*
+                    setFilteredPlaces(places.filter(place => place.rating > rating))
+                    If do this, all the data became filtered previous type data,
+                    e.g, user requests for hotels, but the map and list show previous filtered restaurants,
+                         since map and list was designed to show filtered places instead of places.
+                    so it is better to do setFilteredPlaces empty and setRating empty
+                */
+                setRating("")
                 setIsLoading(false);
             }
         })
