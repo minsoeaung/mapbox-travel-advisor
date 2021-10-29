@@ -1,9 +1,11 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Box } from "@mui/material";
+import { AppBar, Toolbar, Typography, Box, IconButton } from "@mui/material";
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 import useStyles from "./styles";
 
-const Header = ({ containerRef }) => {
+const Header = ({ containerRef, mode, setMode }) => {
     const classes = useStyles();
 
     return (
@@ -18,6 +20,16 @@ const Header = ({ containerRef }) => {
                     </Typography>
                     <div className={classes.search}>
                         <div ref={containerRef} />
+                    </div>
+                    <div>
+                        {mode} mode
+                        <IconButton
+                            sx={{ ml: 1 }}
+                            onClick={() => setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))}
+                            color="inherit"
+                        >
+                            {mode === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
+                        </IconButton>
                     </div>
                 </Box>
             </Toolbar>

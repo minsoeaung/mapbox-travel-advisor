@@ -19,7 +19,7 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
-const Map = ({ places, setBounds, setClickedMarker, containerRef }) => {
+const Map = ({ places, setBounds, setClickedMarker, containerRef, mode }) => {
     const classes = useStyles();
     const desktopScreen = useMediaQuery("(min-width:600px)");
 
@@ -149,7 +149,7 @@ const Map = ({ places, setBounds, setClickedMarker, containerRef }) => {
                 onViewportChange={handleViewportChange}
                 onTransitionEnd={handleTransitionEnd}
                 mapboxApiAccessToken={MAPBOX_TOKEN}
-                mapStyle="mapbox://styles/mapbox/streets-v11"
+                mapStyle={mode === 'light' ? "mapbox://styles/mapbox/streets-v11" : "mapbox://styles/mapbox/dark-v10"}
             >
                 <Geocoder
                     mapRef={mapRef}

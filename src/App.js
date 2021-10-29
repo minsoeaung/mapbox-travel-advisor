@@ -1,6 +1,7 @@
 import React, { useEffect, useState, createRef } from "react";
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
+import {ThemeProvider, createTheme} from '@mui/material/styles';
 
 import getPlacesData from "./api/index";
 
@@ -18,6 +19,13 @@ const App = () => {
     const [type, setType] = useState("restaurants");
     const [rating, setRating] = useState("");
     const geocoderContainerRef = createRef();
+    const [mode, setMode] = React.useState('light');
+
+    const theme = createTheme({
+        palette: {
+            mode: mode
+        }
+    })
 
     useEffect(() => {
         setIsLoading(true);
@@ -45,32 +53,35 @@ const App = () => {
     }, [rating])
 
     return (
-        <div>
-            <CssBaseline />
-            <Header containerRef={geocoderContainerRef} />
+        <ThemeProvider theme={theme}>
+            <div>
+                <CssBaseline/>
+                <Header containerRef={geocoderContainerRef} mode={mode} setMode={setMode}/>
 
-            <Grid container>
-                <Grid items xs={12} md={4}>
-                    <List
-                        places={filteredPlaces.length ? filteredPlaces : places}
-                        clickedMarker={clickedMarker}
-                        isLoading={isLoading}
-                        type={type}
-                        setType={setType}
-                        rating={rating}
-                        setRating={setRating}
-                    />
+                <Grid container>
+                    <Grid items xs={12} md={4}>
+                        <List
+                            places={filteredPlaces.length ? filteredPlaces : places}
+                            clickedMarker={clickedMarker}
+                            isLoading={isLoading}
+                            type={type}
+                            setType={setType}
+                            rating={rating}
+                            setRating={setRating}
+                        />
+                    </Grid>
+                    <Grid items xs={12} md={8}>
+                        <Map
+                            setBounds={setBounds}
+                            places={filteredPlaces.length ? filteredPlaces : places}
+                            setClickedMarker={setClickedMarker}
+                            containerRef={geocoderContainerRef}
+                            mode={mode}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid items xs={12} md={8}>
-                    <Map
-                        setBounds={setBounds}
-                        places={filteredPlaces.length ? filteredPlaces : places}
-                        setClickedMarker={setClickedMarker}
-                        containerRef={geocoderContainerRef}
-                    />
-                </Grid>
-            </Grid>
-        </div>
+            </div>
+        </ThemeProvider>
     );
 };
 

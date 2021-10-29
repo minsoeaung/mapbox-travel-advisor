@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import data from "./data"
+// import data from "./data"
 
 const getPlacesData = async (type, ne, sw, source) => {
     try {
