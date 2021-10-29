@@ -28,8 +28,11 @@ const App = () => {
         getPlacesData(type, bounds.ne, bounds.sw, source).then((data) => {
             if (data !== undefined) {
                 setPlaces(data);
-                console.log("new places data set")
-                setFilteredPlaces([]);
+                // console.log("new places data set")
+                // setFilteredPlaces([]);
+                // set previous rating filtering if user change type
+                setFilteredPlaces(places.filter(place => place.rating > rating))
+                // or try to reset the rating filter to all if user changes type
                 setIsLoading(false);
             }
         })
