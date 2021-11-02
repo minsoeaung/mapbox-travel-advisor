@@ -7,15 +7,17 @@ import React, {
 } from "react";
 import { Paper, Typography, useMediaQuery } from "@mui/material";
 import Rating from "@mui/material/Rating";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 
 import MapGL, { GeolocateControl, Marker } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 
 import useStyles from "./styles";
 import "mapbox-gl/dist/mapbox-gl.css";
+import mapboxgl from 'mapbox-gl';
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-
-import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOXGL_ACCESS_TOKEN;
 
